@@ -1,0 +1,9 @@
+.van-nav-bar {
+  background-color: #007bff;
+}
+.van-nav-bar .van-nav-bar__title {
+  color: #fff;
+}
+.van-form {
+  margin-top: 50px;
+}
