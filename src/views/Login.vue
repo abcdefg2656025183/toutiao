@@ -2,7 +2,7 @@
   <div id="login">
     <van-nav-bar title="黑马头条 - 登录" :fixed="true" />
 
-    <van-form>
+    <van-form @submit="login">
       <van-field
         v-model="from.mobile"
         name="手机号"
@@ -19,7 +19,7 @@
         :rules="reles.code"
       />
       <div style="margin: 16px;">
-        <van-button round block type="info" native-type="submit" @click="login"
+        <van-button round block type="info" native-type="submit"
           >提交</van-button
         >
       </div>
@@ -64,8 +64,10 @@ export default {
 
       if (res.data.message == "OK") {
         this.updateTokenInfo(res.data);
-        this.$router.push('/')
+        this.$router.push("/");
+
       }
+     
     }
   }
 };
