@@ -17,17 +17,21 @@
 
       <!-- 频道管理的小图标 -->
       <van-icon name="plus" size="16" class="plus" />
-      <van-tab :title="item.name" v-for="item in userChannel" :key="item.id">{{
-        item.name
-      }}</van-tab>
+      <van-tab :title="item.name" v-for="item in userChannel" :key="item.id">
+        <art-list :channel-id="item.id"></art-list>
+      </van-tab>
     </van-tabs>
   </div>
 </template>
 
 <script>
 import { getUserChannels } from "../api/HomeApi";
+import ArtList from "../components/Artlist.vue";
 export default {
   name: "Home",
+  components: {
+    ArtList
+  },
   data() {
     return {
       active: 0,
