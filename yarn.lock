@@ -866,7 +866,7 @@
 
 "@babel/runtime@7.x", "@babel/runtime@^7.0.0", "@babel/runtime@^7.11.0", "@babel/runtime@^7.8.4":
   version "7.15.4"
-  resolved "https://registry.nlark.com/@babel/runtime/download/@babel/runtime-7.15.4.tgz?cache=0&sync_timestamp=1630618785994&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40babel%2Fruntime%2Fdownload%2F%40babel%2Fruntime-7.15.4.tgz#fd17d16bfdf878e6dd02d19753a39fa8a8d9c84a"
+  resolved "https://registry.nlark.com/@babel/runtime/download/@babel/runtime-7.15.4.tgz#fd17d16bfdf878e6dd02d19753a39fa8a8d9c84a"
   integrity sha1-/RfRa/34eObdAtGXU6OfqKjZyEo=
   dependencies:
     regenerator-runtime "^0.13.4"
@@ -959,7 +959,7 @@
 
 "@popperjs/core@^2.9.2":
   version "2.10.2"
-  resolved "https://registry.npmmirror.com/@popperjs/core/download/@popperjs/core-2.10.2.tgz?cache=0&sync_timestamp=1633001769711&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40popperjs%2Fcore%2Fdownload%2F%40popperjs%2Fcore-2.10.2.tgz#0798c03351f0dea1a5a4cabddf26a55a7cbee590"
+  resolved "https://registry.npmmirror.com/@popperjs/core/download/@popperjs/core-2.10.2.tgz#0798c03351f0dea1a5a4cabddf26a55a7cbee590"
   integrity sha1-B5jAM1Hw3qGlpMq93yalWny+5ZA=
 
 "@soda/friendly-errors-webpack-plugin@^1.7.1":
@@ -1155,7 +1155,7 @@
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.0.0", "@vue/babel-helper-vue-jsx-merge-props@^1.2.1":
   version "1.2.1"
-  resolved "https://registry.npm.taobao.org/@vue/babel-helper-vue-jsx-merge-props/download/@vue/babel-helper-vue-jsx-merge-props-1.2.1.tgz#31624a7a505fb14da1d58023725a4c5f270e6a81"
+  resolved "https://registry.nlark.com/@vue/babel-helper-vue-jsx-merge-props/download/@vue/babel-helper-vue-jsx-merge-props-1.2.1.tgz#31624a7a505fb14da1d58023725a4c5f270e6a81"
   integrity sha1-MWJKelBfsU2h1YAjclpMXycOaoE=
 
 "@vue/babel-helper-vue-transform-on@^1.0.2":
@@ -8477,7 +8477,7 @@ validate-npm-package-license@^3.0.1:
 
 vant@^2.12.29:
   version "2.12.29"
-  resolved "https://registry.npmmirror.com/vant/download/vant-2.12.29.tgz?cache=0&sync_timestamp=1632640305987&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fvant%2Fdownload%2Fvant-2.12.29.tgz#b909a1ec9e10cb57d27fb04684c84635a6ac3138"
+  resolved "https://registry.npmmirror.com/vant/download/vant-2.12.29.tgz?cache=0&sync_timestamp=1633952504959&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fvant%2Fdownload%2Fvant-2.12.29.tgz#b909a1ec9e10cb57d27fb04684c84635a6ac3138"
   integrity sha1-uQmh7J4Qy1fSf7BGhMhGNaasMTg=
   dependencies:
     "@babel/runtime" "7.x"
@@ -8530,7 +8530,7 @@ vue-hot-reload-api@^2.3.0:
 
 vue-lazyload@1.2.3:
   version "1.2.3"
-  resolved "https://registry.npm.taobao.org/vue-lazyload/download/vue-lazyload-1.2.3.tgz#901f9ec15c7e6ca78781a2bae4a343686bdedb2c"
+  resolved "https://registry.nlark.com/vue-lazyload/download/vue-lazyload-1.2.3.tgz#901f9ec15c7e6ca78781a2bae4a343686bdedb2c"
   integrity sha1-kB+ewVx+bKeHgaK65KNDaGve2yw=
 
 "vue-loader-v16@npm:vue-loader@^16.1.0":
