@@ -27,10 +27,13 @@
 <script>
 import { getUserChannels } from "../api/HomeApi";
 import ArtList from "../components/Artlist.vue";
+import ArtItem from '../components/ArtItem.vue'
+
 export default {
   name: "Home",
   components: {
-    ArtList
+    ArtList,
+    ArtItem
   },
   data() {
     return {
@@ -43,7 +46,7 @@ export default {
       const { data: res } = await getUserChannels();
       if (res.message === "OK") {
         this.userChannel = res.data.channels;
-        console.log(this.userChannel);
+        // console.log(this.userChannel);
       }
     }
   },

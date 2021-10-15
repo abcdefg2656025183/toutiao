@@ -1,11 +1,18 @@
 <template>
-  <div>文章列表组件 ---{{ channelId }}</div>
+  <div>
+    <art-item v-for="item in artList" :key="item.art_id"></art-item>
+  </div>
 </template>
 
 <script>
 import { getArtListAPI } from "../api/HomeApi";
+import { loginApi } from "../api/userApi";
+import ArtItem from "../components/ArtItem.vue";
+
 export default {
-  // 大驼峰命名法：每个单词的首字母大写
+  components: {
+    ArtItem
+  },
   name: "ArticleList",
   props: {
     channelId: {
@@ -16,21 +23,22 @@ export default {
   data() {
     return {
       artList: [],
-      time: Date.now()
+      preTimestamp: ""
     };
   },
   methods: {
     async getArtList() {
-        console.log(this.channelId);
-      const { data: res } = await getArtListAPI({
-        channel_id: this.channelId,
-        timestamp: this.time
-      });
+      const { data: res } = await getArtListAPI(this.channelId, Date.now());
       console.log(res);
+      if (res.message == "OK") {
+        this.preTimestamp = res.data.pre_timestamp;
+        this.artList = res.data.results;
+        console.log(this.artList,'asdasd');
+      }
     }
   },
-  created () {
-    this.getArtList()  
+  created() {
+    this.getArtList();
   }
 };
 </script>

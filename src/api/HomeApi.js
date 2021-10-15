@@ -4,7 +4,7 @@ export const getUserChannels = () => {
   return request.get("/v1_0/user/channels");
 };
 
-export const getArtListAPI = () => {
+export const getArtListAPI = (id, time) => {
   return request.get("/v1_0/articles", {
     params: {
       channel_id: id,
