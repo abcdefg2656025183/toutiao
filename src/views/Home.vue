@@ -1,7 +1,7 @@
 <template>
-  <div class="home-container">
+  <div class="home-container" sticky>
     <!-- 头部区域 -->
-    <van-nav-bar fixed>
+    <van-nav-bar fixed sticky>
       <!-- 左侧的插槽 -->
       <template #left>
         <img src="../assets/toutiao_logo.png" alt="logo" class="logo" />
@@ -13,7 +13,7 @@
     </van-nav-bar>
     <van-tabs v-model="active" sticky>
       <!-- 频道列表的标签页 -->
-      <van-tabs v-model="active" sticky offset-top="1.22666667rem"></van-tabs>
+      <!-- <van-tabs v-model="active" sticky offset-top="1.22666667rem"></van-tabs> -->
 
       <!-- 频道管理的小图标 -->
       <van-icon name="plus" size="16" class="plus" />
@@ -27,13 +27,11 @@
 <script>
 import { getUserChannels } from "../api/HomeApi";
 import ArtList from "../components/Artlist.vue";
-import ArtItem from '../components/ArtItem.vue'
 
 export default {
   name: "Home",
   components: {
-    ArtList,
-    ArtItem
+    ArtList
   },
   data() {
     return {
@@ -44,9 +42,9 @@ export default {
   methods: {
     async initUserChannel() {
       const { data: res } = await getUserChannels();
+      // console.log(res);
       if (res.message === "OK") {
         this.userChannel = res.data.channels;
-        // console.log(this.userChannel);
       }
     }
   },

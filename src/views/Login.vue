@@ -65,9 +65,7 @@ export default {
       if (res.data.message == "OK") {
         this.updateTokenInfo(res.data);
         this.$router.push("/");
-
       }
-     
     }
   }
 };
