@@ -18,7 +18,9 @@ import {
   CellGroup,
   List,
   PullRefresh,
-  Lazyload
+  Lazyload,
+  ActionSheet,
+
 } from "vant";
 // 导入 dayjs 的核心模块
 import dayjs from "dayjs";
@@ -47,7 +49,9 @@ Vue.use(CellGroup);
 Vue.use(List);
 Vue.use(PullRefresh);
 Vue.use(Lazyload);
+Vue.use(ActionSheet);
 Vue.config.productionTip = false;
+Vue.config.silent = true
 // dt 参数是文章的发表时间
 Vue.filter("dateFormat", dt => {
   // 调用 dayjs() 得到的是当前的时间

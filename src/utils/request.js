@@ -4,7 +4,7 @@ import store from "../store";
 import { Toast } from "vant";
 Vue.use(Toast);
 
-axios.defaults.baseURL = "http://www.liulongbin.top:8000";
+axios.defaults.baseURL = "http://toutiao.itheima.net";
 // 添加请求拦截器
 axios.interceptors.request.use(
   function(config) {

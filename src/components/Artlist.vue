@@ -9,6 +9,7 @@
         :immediate-check="false"
       >
         <art-item
+          @remove-article="removeArticle"
           v-for="item in artList"
           :key="item.art_id"
           :article="item"
@@ -19,7 +20,7 @@
 </template>
 
 <script>
-import { getArtListAPI } from "../api/HomeApi";
+import { getartListAPI } from "../api/HomeApi";
 import ArtItem from "../components/ArtItem.vue";
 
 export default {
@@ -45,8 +46,8 @@ export default {
     };
   },
   methods: {
-    async initArtList(isRefresh) {
-      const { data: res } = await getArtListAPI(this.channelId, this.timestamp);
+    async initartList(isRefresh) {
+      const { data: res } = await getartListAPI(this.channelId, this.timestamp);
       // console.log(res);
       if (res.message == "OK") {
         this.timestamp = res.data.pre_timestamp;
@@ -61,7 +62,7 @@ export default {
         } else {
           // 上拉加载
           // 1. “旧数据”在前，“新数据”在后
-          this.artlist = [...this.artlist, ...res.data.results];
+          this.artList = [...this.artList, ...res.data.results];
           // 2. 重置 loading 为 false
           this.loading = false;
         }
@@ -72,14 +73,18 @@ export default {
     },
     onLoad() {
       // console.log("触发了上拉加载更多");
-      this.initArtList();
+      this.initartList();
     },
     onRefresh() {
-      this.initArtList(true);
+      this.initartList(true);
+    },
+    removeArticle(id) {
+      // 对原数组进行 filter 方法的过滤
+      this.artList = this.artList.filter(item => item.art_id.toString() !== id);
     }
   },
   created() {
-    this.initArtList();
+    this.initartList();
   }
 };
 </script>
