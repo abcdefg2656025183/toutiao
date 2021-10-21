@@ -53,6 +53,7 @@
           @click="onCellClick(item.name)"
         />
       </div>
+
       <div v-else>
         <van-cell
           :title="item.label"
@@ -60,6 +61,7 @@
           title-class="center-title"
           v-for="item in reports"
           :key="item.type"
+          @click="reportArticle(item.type)"
         />
       </div>
     </van-action-sheet>
@@ -68,7 +70,7 @@
 
 <script>
 import reports from "../api/reports";
-// import { dislikeArticleAPI } from "../api/HomeApi";
+import { dislikeArticleAPI, reportArticleAPI } from "../api/HomeApi";
 export default {
   name: "ArtItem",
   data() {
@@ -108,11 +110,11 @@ export default {
       if (name === "不感兴趣") {
         // console.log("不感兴趣");
         // console.log(this.artId);
-        // const { data: res } = await dislikeArticleAPI(this.artId);
-        // if (res.message === "OK") {
-          // TODO：炸楼的操作，触发自定义的事件，将文章 id 发送给父组件
+        const { data: res } = await dislikeArticleAPI(this.artId);
+        console.log(res, "res");
+        if (res.message === "OK") {
           this.$emit("remove-article", this.artId);
-        // }
+        }
         this.show = false;
       } else if (name === "拉黑作者") {
         console.log("拉黑作者");
@@ -120,11 +122,18 @@ export default {
       } else if (name === "反馈垃圾内容") {
         this.isFirst = false;
       }
+    },
+    async reportArticle(type) {
+      const { data: res } = await reportArticleAPI(this.artId, type);
+      if (res.message === "OK") {
+        this.$emit("remove-article", this.artId);
+      }
+
+      this.show = false;
     }
   },
   computed: {
     artId() {
-      // 注意：文章对象的 art_id 是大数对象，需要调用 .toString() 方法转换为字符串形式
       return this.article.art_id.toString();
     }
   }

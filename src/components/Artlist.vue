@@ -79,8 +79,11 @@ export default {
       this.initartList(true);
     },
     removeArticle(id) {
-      // 对原数组进行 filter 方法的过滤
+      // console.log(this.artList);
       this.artList = this.artList.filter(item => item.art_id.toString() !== id);
+      if (this.artList.length < 10) {
+        this.initArtList();
+      }
     }
   },
   created() {

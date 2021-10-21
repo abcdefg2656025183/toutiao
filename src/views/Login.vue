@@ -4,14 +4,14 @@
 
     <van-form @submit="login">
       <van-field
-        v-model="from.mobile"
+        v-model="form.mobile"
         name="手机号"
         label="手机号"
         placeholder="手机号"
         :rules="reles.mobile"
       />
       <van-field
-        v-model="from.code"
+        v-model="form.code"
         type="code"
         name="密码"
         label="密码"
@@ -20,6 +20,7 @@
       />
       <div style="margin: 16px;">
         <van-button round block type="info" native-type="submit"
+        @click="login()"
           >提交</van-button
         >
       </div>
@@ -28,12 +29,12 @@
 </template>
 
 <script>
-import { loginApi } from "../api/userApi";
+import { loginApi } from "../api/HomeApi";
 import { mapMutations } from "vuex";
 export default {
   data() {
     return {
-      from: {
+      form: {
         mobile: "13888888123",
         code: "246810"
       },
@@ -56,16 +57,12 @@ export default {
   methods: {
     ...mapMutations(["updateTokenInfo"]),
     async login() {
-      // console.log("submit", values);
-      let res = await loginApi({
-        mobile: this.from.mobile,
-        code: this.from.code
-      });
-
-      if (res.data.message == "OK") {
-        this.updateTokenInfo(res.data);
-        this.$router.push("/");
-      }
+      let {data:res} = await loginApi(this.form);
+      console.log(res);
+      // if (res.data.message === "OK") {
+      //   this.updateTokenInfo(res.data);
+      //   this.$router.push("/");
+      // }
     }
   }
 };

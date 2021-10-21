@@ -1,4 +1,9 @@
 import request from "../utils/request";
+
+export const loginApi = data => {
+  return request.post('/v1_0/authorizations', data)
+}
+
 export const getUserChannels = () => {
   return request.get("/v1_0/user/channels");
 };
@@ -20,12 +25,9 @@ export const dislikeArticleAPI = id => {
   });
 };
 
-// = (target, type, remark) => {
-//   return request.post("/v1_0/article/reports", {
-//     params: {
-//       target,
-//       type,
-//       remark
-//     }
-//   });
-// };
+export const reportArticleAPI = (target, type) => {
+  return request.post("/v1_0/article/reports", {
+    target,
+    type
+  });
+};
