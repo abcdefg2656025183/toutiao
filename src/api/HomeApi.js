@@ -31,3 +31,14 @@ export const reportArticleAPI = (target, type) => {
     type
   });
 };
+
+export const getAllChannelAPI = () => {
+  return request.get('/v1_0/channels')
+}
+
+
+export const updateUserChannelAPI = channels => {
+  return request.put('/v1_0/user/channels', {
+    channels
+  })
+}

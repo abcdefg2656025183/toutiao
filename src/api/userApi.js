@@ -1,8 +1,9 @@
 import request from '../utils/request'
 import axios from 'axios'
-export const loginApi = (data) => {
+export const loginApi = data => {
   return request.post('/v1_0/authorizations', data)
 }
+
 export const exchangeTokenAPI = refreshToken => {
   return axios({
     method: 'PUT',

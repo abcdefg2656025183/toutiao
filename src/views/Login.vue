@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { loginApi } from "../api/HomeApi";
+import { loginApi } from "../api/userApi";
 import { mapMutations } from "vuex";
 export default {
   data() {
@@ -56,14 +56,19 @@ export default {
   },
   methods: {
     ...mapMutations(["updateTokenInfo"]),
-    async login() {
-      let {data:res} = await loginApi(this.form);
-      console.log(res);
-      // if (res.data.message === "OK") {
-      //   this.updateTokenInfo(res.data);
-      //   this.$router.push("/");
-      // }
+      async login() {
+      // console.log("submit", values);
+      let res = await loginApi({
+        mobile: this.form.mobile,
+        code: this.form.code
+      });
+
+      if (res.data.message == "OK") {
+        this.updateTokenInfo(res.data);
+        this.$router.push('/')
+      }
     }
+  
   }
 };
 </script>

@@ -20,6 +20,7 @@ import {
   PullRefresh,
   Lazyload,
   ActionSheet,
+  Popup
 
 } from "vant";
 // 导入 dayjs 的核心模块
@@ -35,6 +36,7 @@ dayjs.extend(relativeTime);
 
 // 配置中文语言包
 dayjs.locale(zh);
+Vue.use(Popup)
 Vue.use(TabbarItem);
 Vue.use(Tabbar);
 Vue.use(Form);
