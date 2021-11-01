@@ -52,12 +52,27 @@
       <div class="art-content" v-html="article.content"></div>
 
       <!-- 分割线 -->
-      <van-divider>End</van-divider>
+  <art-cmt :art-id="id"></art-cmt>
 
       <!-- 点赞 -->
       <div class="like-box">
-        <van-button icon="good-job" type="danger" size="small" v-if="article.attitude === 1" @click="setDislike">已点赞</van-button>
-       <van-button icon="good-job-o" type="danger" plain size="small" v-else @click="setLike">点赞</van-button>
+        <van-button
+          icon="good-job"
+          type="danger"
+          size="small"
+          v-if="article.attitude === 1"
+          @click="setDislike"
+          >已点赞</van-button
+        >
+        <van-button
+          icon="good-job-o"
+          type="danger"
+          plain
+          size="small"
+          v-else
+          @click="setLike"
+          >点赞</van-button
+        >
       </div>
     </div>
   </div>
@@ -67,16 +82,25 @@
 import {
   getArticleDetailAPI,
   followUserAPI,
-  unfollowUserAPI, addLikeAPI, delLikeAPI
+  unfollowUserAPI,
+  addLikeAPI,
+  delLikeAPI
 } from "../api/articleAPI.js";
+import ArtCmt from '../components/ArtComt.vue'
 export default {
   name: "ArticleDetail",
+
   props: ["id"],
+  
   data() {
     return {
       article: null
     };
   },
+      components: {
+  // 注册文章评论组件
+  ArtCmt
+},
   methods: {
     // 初始化文章的数据
     async initArticle() {
@@ -112,27 +136,27 @@ export default {
       }
     },
     // 文章点赞
-  async setLike() {
-    // 调用 API 接口
-    const { data: res } = await addLikeAPI(this.id)
-    if (res.message === 'OK') {
-      // 提示用户
-      this.$toast.success('点赞成功！')
-      // 手动变更点赞的状态
-      this.article.attitude = 1
+    async setLike() {
+      // 调用 API 接口
+      const { data: res } = await addLikeAPI(this.id);
+      if (res.message === "OK") {
+        // 提示用户
+        this.$toast.success("点赞成功！");
+        // 手动变更点赞的状态
+        this.article.attitude = 1;
+      }
+    },
+    // 取消点赞
+    async setDislike() {
+      // 调用 API 接口
+      const res = await delLikeAPI(this.id);
+      if (res.status === 204) {
+        // 提示用户
+        this.$toast.success("取消点赞成功！");
+        // 手动变更点赞的状态
+        this.article.attitude = -1;
+      }
     }
-  },
-  // 取消点赞
-  async setDislike() {
-    // 调用 API 接口
-    const res = await delLikeAPI(this.id)
-    if (res.status === 204) {
-      // 提示用户
-      this.$toast.success('取消点赞成功！')
-      // 手动变更点赞的状态
-      this.article.attitude = -1
-    }
-  }
   },
   created() {
     this.initArticle();
