@@ -6,6 +6,8 @@ import Home from "../views/Home.vue";
 import User from "../views/User.vue";
 import Search from "../views/Search.vue";
 import SearchResult from "../views/SearchResult.vue";
+import ArticleDetail from "../views/ArticleDetail.vue";
+
 Vue.use(VueRouter);
 //路由表
 const routes = [
@@ -32,7 +34,9 @@ const routes = [
     ]
   },
   { path: "/search", component: Search, name: "search" },
-  { path: '/search/:kw', component: SearchResult, name: 'search-result', props: true }
+  { path: '/search/:kw', component: SearchResult, name: 'search-result', props: true },
+  { path: '/article/:id', component: ArticleDetail, name: 'art-detail' ,props: true}
+
 ];
 
 const router = new VueRouter({
