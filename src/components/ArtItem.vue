@@ -29,7 +29,8 @@
             &nbsp;&nbsp; {{ article.pubdate | dateFormat }}</span
           >
           <!-- 关闭按钮 -->
-          <van-icon name="cross" @click.stop="show = true" />
+          <van-icon name="cross" @click.stop="show = true" v-if="closable" />
+
         </div>
       </template>
     </van-cell>
@@ -73,6 +74,14 @@ import reports from "../api/reports";
 import { dislikeArticleAPI, reportArticleAPI } from "../api/HomeApi";
 export default {
   name: "ArtItem",
+  props: {
+    // 是否展示关闭按钮
+    closable: {
+      type: Boolean,
+      // 默认值为 true，表示展示关闭按钮
+      default: true
+    }
+  },
   data() {
     return {
       reports,

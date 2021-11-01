@@ -4,6 +4,8 @@ import Login from "../views/Login.vue";
 import Main from "../views/Main.vue";
 import Home from "../views/Home.vue";
 import User from "../views/User.vue";
+import Search from "../views/Search.vue";
+import SearchResult from "../views/SearchResult.vue";
 Vue.use(VueRouter);
 //路由表
 const routes = [
@@ -28,7 +30,9 @@ const routes = [
         name: "User"
       }
     ]
-  }
+  },
+  { path: "/search", component: Search, name: "search" },
+  { path: '/search/:kw', component: SearchResult, name: 'search-result', props: true }
 ];
 
 const router = new VueRouter({
