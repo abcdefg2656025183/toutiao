@@ -1,76 +1,82 @@
 <template>
   <div id="login">
-    <van-nav-bar title="黑马头条 - 登录" :fixed="true" />
-
+    <!-- 头部区域 -->
+    <van-nav-bar :fixed="true" title="黑马头条 - 登录" />
+    <!-- 表单区域 -->
     <van-form @submit="login">
       <van-field
         v-model="form.mobile"
-        name="手机号"
-        label="手机号"
-        placeholder="手机号"
-        :rules="reles.mobile"
+        :rules="rules.mobile"
+        required
+        name="mobile"
+        label="手机号码"
+        placeholder="请输入手机号码"
       />
       <van-field
-        v-model="form.code"
-        type="code"
-        name="密码"
-        label="密码"
-        placeholder="密码"
-        :rules="reles.code"
+        v-model="form.password"
+        :rules="rules.password"
+        required
+        type="password"
+        name="password"
+        label="登录密码"
+        placeholder="请输入登录密码"
       />
       <div style="margin: 16px;">
-        <van-button round block type="info" native-type="submit"
-        @click="login()"
-          >提交</van-button
-        >
+        <van-button round block type="info" native-type="submit">提交</van-button>
       </div>
     </van-form>
   </div>
 </template>
 
 <script>
-import { loginApi } from "../api/userApi";
-import { mapMutations } from "vuex";
+// 按需导入登录的API接口
+import { loginAPI } from '../api/userAPI'
+import { mapMutations } from 'vuex'
 export default {
-  data() {
+  // name 是当前组件的名称（建议为每个组件都指定唯一的 name 名称）
+  name: 'Login',
+  data () {
     return {
       form: {
-        mobile: "13888888123",
-        code: "246810"
+        mobile: '13888888123',
+        password: '246810'
       },
-
-      reles: {
+      rules: {
         mobile: [
-          { required: true, message: "请输入正确的手机号", trigger: "onBlur" },
-          {
-            pattern: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
-            message: "请输入正确的手机号",
-            trigger: "onBlur"
-          }
+          { required: true, message: '请务必输入手机号码', trigger: 'onBlur' },
+          { pattern: /^1\d{10}$/, message: '请您输入正确的手机号', trigger: 'onBlur' }
         ],
-        code: [
-          { required: true, message: "请输入正确的密码", trigger: "onBlur" }
-        ]
+        password: [{ required: true, message: '请输入正确的密码', trigger: 'onBlur' }]
       }
-    };
+    }
   },
   methods: {
-    ...mapMutations(["updateTokenInfo"]),
-      async login() {
-      // console.log("submit", values);
-      let res = await loginApi({
-        mobile: this.form.mobile,
-        code: this.form.code
-      });
+    ...mapMutations(['updateTokenInfo']),
+    async login () {
+      // 打印
+      // console.log('ok')
+      // 调用loginAPI接口
+      const { data: res } = await loginAPI({ mobile: this.form.mobile, code: this.form.password })
+      // console.log(res)
 
-      if (res.data.message == "OK") {
-        this.updateTokenInfo(res.data);
+      if (res.message === 'OK') {
+        // console.log(res.data)
+        // 任务1: 把data对象存到vuex中去
+        this.updateTokenInfo(res.data)
+        // 任务2: 跳转到首页
+        // #/login?url=%2Fuser
+        // const url = window.location.hash.split('?')[1].split('=')[1]
+        //
+        // const url = new URLSearchParams
         this.$router.push('/')
       }
     }
-  
   }
-};
+}
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+#login {
+  padding-top: 46px;
+}
+</style>

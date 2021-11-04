@@ -1,28 +1,92 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-Vue.use(Vuex);
-let initSate = {
-  tokenInfo: {}
-};
-const stateStr = localStorage.getItem("state");
-if (stateStr) {
-  initSate = JSON.parse(stateStr);
+// console.log('本地获取到的Token信息', initState)
+
+import { getUserInfoAPI, getUserProfileAPI } from '../api/userAPI'
+
+Vue.use(Vuex)
+
+// 1.定义一个initstate为一个对象
+const initState = {
+  tokenInfo: {
+    token: '',
+    refresh_token: ''
+  },
+  userInfo: {},
+  // 用户的简介信息
+  userProfile: {}
 }
+
+// 2.直接从localstorage中获取 tokenInfo
+const stateStr = window.localStorage.getItem('state')
+
+// console.log(stateStr) // 空(null) 或者 {"tokenInfo":{"token":"967fea98-fdf9-4076-b08c-b05bdc04f835","refresh_token":"851510b5-0615-444a-b6a4-c30d4118d4fd"}}
+
+// 3.把获取到的值赋值给第一步定义的initstate
+if (stateStr !== null) {
+  initState.tokenInfo = JSON.parse(stateStr).tokenInfo
+}
+
 export default new Vuex.Store({
-  state: initSate,
+  state: {
+    tokenInfo: initState.tokenInfo,
+    userInfo: initState.userInfo,
+    userProfile: initState.userProfile
+  },
   mutations: {
-    updateTokenInfo(state, payload) {
-      // console.log(payload, "payload");
-      state.tokenInfo = payload;
-      // console.log(state);
-      this.commit("saveLogin");
+    updateTokenInfo (state, payload) {
+      state.tokenInfo = payload
+      this.commit('saveStateStorage')
+      // console.log('state中存的tokenInfo', state.tokenInfo)
     },
-    saveLogin(state) {
-      // console.log(JSON.stringify(state));
-      localStorage.setItem("state", JSON.stringify(state));
+    // 获取的token信息，存储到localStorage中
+    saveStateStorage (state) {
+      // {"tokenInfo":{
+      // "token":"55a55104-7589-4005-9848-9c44320fe314",
+      // "refresh_token":"6857ff70-f393-4143-b26a-c6ce50fc3118"}}
+      window.localStorage.setItem('state', JSON.stringify(state))
+    },
+    // 清除 tokeninfo localStorage中的token
+    cleanTokenInfo (state) {
+      state.tokenInfo = {
+        token: '',
+        refresh_token: ''
+      }
+      localStorage.removeItem('state')
+    },
+    // 更新用户数据的
+    updateUserInfo (state, payload) {
+      state.userInfo = payload
+    },
+    cleanLoginState (state) {
+      state.tokenInfo = {}
+      state.userInfo = {}
+      state.userProfile = {}
+      this.commit('cleanTokenInfo')
+    },
+    updateUserProfile (state, payload) {
+      state.userProfile = payload
     }
   },
-  actions: {},
-  modules: {}
-});
+  actions: {
+    async getUserInfo (ctx) {
+      // console.log('aaa')
+      const { data: res } = await getUserInfoAPI()
+      if (res.message === 'OK') {
+        // console.log(res)
+        ctx.commit('updateUserInfo', res.data)
+        // console.log(this.state)
+      }
+    },
+    async getUserProfile (ctx) {
+      const { data: res } = await getUserProfileAPI()
+      if (res.message === 'OK') {
+        // console.log(res)
+        ctx.commit('updateUserProfile', res.data)
+      }
+    }
+  },
+  modules: {
+  }
+})

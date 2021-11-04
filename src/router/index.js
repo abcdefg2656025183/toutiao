@@ -1,46 +1,65 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Login from "../views/Login.vue";
-import Main from "../views/Main.vue";
-import Home from "../views/Home.vue";
-import User from "../views/User.vue";
-import Search from "../views/Search.vue";
-import SearchResult from "../views/SearchResult.vue";
-import ArticleDetail from "../views/ArticleDetail.vue";
+import Vue from 'vue'
+import VueRouter from 'vue-router'
 
-Vue.use(VueRouter);
-//路由表
+// 导入Login.vue页面组件
+import Login from '@/views/Login'
+// 导入Main.vue页面组件
+import Main from '@/views/Main'
+// 导入Home.vue页面组件
+import Home from '@/views/Home'
+// 导入User.vue页面组件
+import User from '@/views/User'
+// 导入Search.vue页面组件
+import Search from '@/views/Search'
+// 导入SearchResult.vue页面组件
+import SearchResult from '@/views/SearchResult'
+// 导入 articleDetail页面组件
+import ArticleDetail from '@/views/ArticleDetail'
+// 导入 UserEdit 页面组件
+import UserEdit from '@/views/UserEdit'
+
+Vue.use(VueRouter)
+
 const routes = [
   {
-    path: "/login",
+    path: '/login',
     component: Login,
-    name: "Login"
+    name: 'login'
   },
   {
-    path: "/",
+    path: '/',
     component: Main,
-    // name: "Main",
+    // 为什么要删除还有子路由的父路由的名字
+    // 含有子路由的路由 有默认的路由，不能加命名路由
+    // name: 'main',
     children: [
       {
-        path: "",
+        path: '/',
         component: Home,
-        name: ""
+        name: 'home'
       },
       {
-        path: "/user",
+        path: '/user',
         component: User,
-        name: "User"
-      }
+        name: 'user'
+      },
+
+      {
+        path: '/search',
+        component: Search,
+        name: 'search'
+      },
+
+      { path: '/search/:kw', component: SearchResult, name: 'search-result', props: true }
+
     ]
   },
-  { path: "/search", component: Search, name: "search" },
-  { path: '/search/:kw', component: SearchResult, name: 'search-result', props: true },
-  { path: '/article/:id', component: ArticleDetail, name: 'art-detail' ,props: true}
-
-];
+  { path: '/article/:id', component: ArticleDetail, name: 'article-detail', props: true },
+  { path: '/user/edit', component: UserEdit, name: 'user-edit' }
+]
 
 const router = new VueRouter({
   routes
-});
+})
 
-export default router;
+export default router

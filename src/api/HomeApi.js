@@ -1,43 +1,67 @@
-import request from "../utils/request";
+// 1.导入request.js文件
+import request from '../utils/request'
 
-export const loginApi = data => {
-  return request.post('/v1_0/authorizations', data)
+/**
+ * getUserChannelAPI 获取用户频道数据
+ * @param 无
+ * @returns Promise
+ */
+export const getUserChannelAPI = () => {
+  return request.get('/v1_0/user/channels')
 }
 
-export const getUserChannels = () => {
-  return request.get("/v1_0/user/channels");
-};
-
-export const getartListAPI = (id, time) => {
-  return request.get("/v1_0/articles", {
+/**
+ * 获取文章列表
+ * @param {*} Id 频道ID
+ * @param {*} time 时间戳
+ */
+export const getArticleListAPI = (Id, time) => {
+  return request.get('/v1_0/articles', {
     params: {
-      channel_id: id,
-      timestamp: time
+      channel_id: Id, // 频道的 Id
+      timestamp: time // 时间戳
     }
-  });
-};
+  })
+}
 
-export const dislikeArticleAPI = id => {
-  return request.post("/v1_0/article/dislikes", {
-    params: {
-      target: id
-    }
-  });
-};
+/**
+ * 将文章设置为不感兴趣
+ * @param {*} id 文章Id
+ * @returns
+ */
+export const dislikeArticleAPI = (id) => {
+  return request.post('/v1_0/article/dislikes', {
+    target: id
+  })
+}
 
-export const reportArticleAPI = (target, type) => {
-  return request.post("/v1_0/article/reports", {
-    target,
-    type
-  });
-};
+/**
+ * 举报文章
+ * @param {String| Number} id 文章Id
+ * @param { Number } type 举报的类型的标识符
+ * @returns
+ */
+export const reportsArticle = (id, type) => {
+  return request.post('/v1_0/article/reports', {
+    target: id,
+    type: type
+  })
+}
 
+/**
+ * 获取所有频道列表
+ * @returns
+ */
 export const getAllChannelAPI = () => {
   return request.get('/v1_0/channels')
 }
 
-
-export const updateUserChannelAPI = channels => {
+/**
+ * 更新用户的频道
+ * @param { Array<Object> } channels
+ * @returns
+ */
+export const updateUserChannelAPI = (channels) => {
   return request.put('/v1_0/user/channels', {
     channels
   })
