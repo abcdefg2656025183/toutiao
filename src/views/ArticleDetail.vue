@@ -68,7 +68,7 @@ export default {
     async initArticle () {
       const { data: res } = await getArticleDetailAPI(this.id)
       if (res.message === 'OK') {
-        console.log(res)
+        // console.log(res)
         this.article = res.data
       }
     },

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
+import router from './router/routera'
 import store from './store'
 
 // #region 配置amfe-flexible

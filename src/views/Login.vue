@@ -68,10 +68,18 @@ export default {
         // const url = window.location.hash.split('?')[1].split('=')[1]
         //
         // const url = new URLSearchParams
-        this.$router.push('/')
+
+        // 有的时候 我带了url 有得时候没有带
+        const navUrl = this.$route.query.url || '/'
+        // console.log(navUrl)
+        this.$router.push(navUrl)
       }
     }
   }
+  // created () {
+  //   console.log(this.$route.path)
+  //   console.log(this.$route.fullPath)
+  // }
 }
 </script>
 

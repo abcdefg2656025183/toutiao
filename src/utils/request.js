@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Toast } from 'vant'
 // 1. 导入vuex的store文件
 import store from '../store'
-import router from '../router'
+import router from '../router/routera'
 import { exChangeToken } from '../api/userAPI'
 // 调用 axios.create() 方法，创建 axios 的实例对象
 const instance = axios.create({

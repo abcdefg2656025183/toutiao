@@ -77,16 +77,16 @@
   </div>
 </template>
 <script>
-import { getCmtListAPI } from "../api/getCmtListAPI";
+import { getCmtListAPI } from '../api/getCmtListAPI'
 // 从 popmotion 中按需导入 animate 动画函数
 import { animate } from 'popmotion'
 import {
   addLikeCmtAPI,
   delLikeCmtAPI,
   pubCommentAPI
-} from "../api/articleAPI.js";
+} from '../api/articleAPI.js'
 export default {
-  name: "ArtCmt",
+  name: 'ArtCmt',
   props: {
     // 文章的 Id（小驼峰命名法）
     artId: {
@@ -94,7 +94,7 @@ export default {
       required: true
     }
   },
-  data() {
+  data () {
     return {
       // 省略其它的数据项...
       isShowBox1: true,
@@ -103,107 +103,107 @@ export default {
       // 所有数据是否加载完毕了
       finished: false,
       cmtCount: 0,
-      cmt: ""
-    };
+      cmt: ''
+    }
   },
   methods: {
     // 初始化评论列表的数据
-    async initCmtList() {
+    async initCmtList () {
       // 调用 API 接口
-      const { data: res } = await getCmtListAPI(this.artId, this.offset);
-      if (res.message === "OK") {
+      const { data: res } = await getCmtListAPI(this.artId, this.offset)
+      if (res.message === 'OK') {
         // 为总评论数赋值
-        this.cmtCount = res.data.total_count;
+        this.cmtCount = res.data.total_count
         // 为列表数据赋值
-        this.cmtlist = [...this.cmtlist, ...res.data.results];
+        this.cmtlist = [...this.cmtlist, ...res.data.results]
 
         // 为偏移量赋值
-        this.offset = res.data.last_id;
+        this.offset = res.data.last_id
         // 将 loading 重置为 false
-        this.loading = false;
+        this.loading = false
         // 判断所有数据是否加载完毕
         if (res.data.results.length === 0) {
-          this.finished = true;
+          this.finished = true
         }
       }
     },
     // 评论点赞
-    async addLike(cmt) {
+    async addLike (cmt) {
       // 1. 调用 API 接口
-      const { data: res } = await addLikeCmtAPI(cmt.com_id.toString());
+      const { data: res } = await addLikeCmtAPI(cmt.com_id.toString())
 
-      if (res.message === "OK") {
+      if (res.message === 'OK') {
         // 2. 在客户端，将点赞的状态设置为 true
-        cmt.is_liking = true;
+        cmt.is_liking = true
       }
     },
     // 评论取消点赞
-    async delLike(cmt) {
+    async delLike (cmt) {
       // 1. 调用 API 接口（注意：由于取消点赞的 API 没有响应体，不需要进行解构赋值）
-      const res = await delLikeCmtAPI(cmt.com_id.toString());
+      const res = await delLikeCmtAPI(cmt.com_id.toString())
 
       if (res.status === 204) {
         // 2. 在客户端，将点赞的状态设置为 false
-        cmt.is_liking = false;
+        cmt.is_liking = false
       }
     },
     // 展示第二个评论区域
-    showBox2() {
+    showBox2 () {
       // 隐藏评论区域1，展示评论区域2
-      this.isShowBox1 = false;
+      this.isShowBox1 = false
 
       // 1. 将回调函数延迟到下次 DOM 更新完毕之后执行
       this.$nextTick(() => {
         // 2. 通过 ref 获取到 textarea 的引用
-        this.$refs.iptCmt.focus();
-      });
+        this.$refs.iptCmt.focus()
+      })
     },
     // 隐藏第二个评论区域
-    hideBox2() {
+    hideBox2 () {
       // 当文本框失去焦点时，延迟 100ms 再隐藏第二个评论区域
       // 目的：让发布评论的按钮能正常响应用户的点击事件
       setTimeout(() => {
         // 隐藏第二个评论区域
-        this.isShowBox1 = true;
+        this.isShowBox1 = true
         // 清空用户输入的评论内容
-        this.cmt = "";
-      }, 100);
+        this.cmt = ''
+      }, 100)
     },
     // 点击了发布评论的按钮
-async pubCmt() {
-  // 调用 API 接口
-  const { data: res } = await pubCommentAPI(this.artId, this.cmt)
-  if (res.message === 'OK') {
-    this.cmtCount += 1
-    // 动态给响应回来的数据添加 is_liking 属性
-    res.data.new_obj.is_liking = false
-    this.cmtlist.unshift(res.data.new_obj)
-    this.$toast.success('发表评论成功')
-  }
-},
-// 滚动到评论的列表区域
-scrollToCmtList() {
-  // 1. 当前滚动条的位置
-  const now = window.scrollY
-  // 2. 目标位置（文章信息区域的高度）
-  const dist = document.querySelector('.article-container').offsetHeight
+    async pubCmt () {
+      // 调用 API 接口
+      const { data: res } = await pubCommentAPI(this.artId, this.cmt)
+      if (res.message === 'OK') {
+        this.cmtCount += 1
+        // 动态给响应回来的数据添加 is_liking 属性
+        res.data.new_obj.is_liking = false
+        this.cmtlist.unshift(res.data.new_obj)
+        this.$toast.success('发表评论成功')
+      }
+    },
+    // 滚动到评论的列表区域
+    scrollToCmtList () {
+      // 1. 当前滚动条的位置
+      const now = window.scrollY
+      // 2. 目标位置（文章信息区域的高度）
+      const dist = document.querySelector('.article-container').offsetHeight
 
-  // 3. 实现滚动动画
-  animate({
-    from: now, // 当前的位置
-    to: dist,  // 目标位置
-    onUpdate: latest => window.scrollTo(0, latest)
-  })
-},
+      // 3. 实现滚动动画
+      animate({
+        from: now, // 当前的位置
+        to: dist, // 目标位置
+        onUpdate: latest => window.scrollTo(0, latest)
+      })
+    },
     // 上拉加载
-    onLoad() {
-      this.initCmtList();
+    onLoad () {
+      this.initCmtList()
     }
   },
-  created() {
-    this.initCmtList();
+  created () {
+    this.initCmtList()
   }
-};
+}
 </script>
 
 <style lang="less" scoped>

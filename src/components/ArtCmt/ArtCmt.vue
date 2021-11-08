@@ -90,7 +90,7 @@ export default {
   methods: {
     async initCmtList () {
       const { data: res } = await getCmtListAPI(this.artId, this.offset)
-      console.log(res)
+      // console.log(res)
       if (res.message === 'OK') {
         // console.log('搜索结果:', res)
         this.cmtList = [...this.cmtList, ...res.data.results]

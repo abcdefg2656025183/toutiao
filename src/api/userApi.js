@@ -40,3 +40,21 @@ export const getUserInfoAPI = () => {
 export const getUserProfileAPI = () => {
   return request.get('/v1_0/user/profile')
 }
+
+/**
+ * 修改用户简介信息
+ * @param { Object } obj  { name: 'xxx' } 或 { birthday: '2012-12-12' }
+ * @returns
+ */
+export const updateUserProfileAPI = obj => {
+  return request.patch('/v1_0/user/profile', obj)
+}
+
+/**
+ * 修改头像
+ * @param {*} fd   fd 表示 FormData 格式的表单数据
+ * @returns
+ */
+export const updateUserAvatarAPI = fd => {
+  return request.patch('/v1_0/user/photo', fd)
+}

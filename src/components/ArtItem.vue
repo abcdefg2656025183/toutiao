@@ -1,83 +1,80 @@
 <template>
   <div>
-     <div @click="$router.push('/article/' + artId)">
-    
-    <van-cell>
-      <!-- 标题区域的插槽 -->
-      <template #title>
-        <div class="title-box">
-          <!-- 标题 -->
-          <span>{{ article.title }}</span>
-          <!-- 单张图片 -->
-          <img
-            v-if="article.cover.type == 1"
-            v-lazy="article.cover.images[0]"
-            alt=""
-            class="thumb"
+    <div @click="$router.push('/article/' + artId)">
+      <van-cell>
+        <!-- 标题区域的插槽 -->
+        <template #title>
+          <div class="title-box">
+            <!-- 标题 -->
+            <span>{{ article.title }}</span>
+            <!-- 单张图片 -->
+            <img
+              v-if="article.cover.type == 1"
+              v-lazy="article.cover.images[0]"
+              alt=""
+              class="thumb"
+            />
+          </div>
+          <!-- 三张图片 -->
+          <div class="thumb-box" v-if="article.cover.type > 1">
+            <img v-lazy="article.cover.images[0]" alt="" class="thumb" />
+            <img v-lazy="article.cover.images[1]" alt="" class="thumb" />
+            <img v-lazy="article.cover.images[2]" alt="" class="thumb" />
+          </div>
+        </template>
+        <!-- label 区域的插槽 -->
+        <template #label>
+          <div class="label-box">
+            <span
+              >{{ article.aut_name }} &nbsp;&nbsp; {{ article.comm_count }}评论
+              &nbsp;&nbsp; {{ article.pubdate | dateFormat }}</span
+            >
+            <!-- 关闭按钮 -->
+            <van-icon name="cross" @click.stop="show = true" v-if="closable" />
+          </div>
+        </template>
+      </van-cell>
+
+      <!-- 反馈的动作面板 -->
+      <van-action-sheet
+        v-model="show"
+        cancel-text="取消"
+        :closeable="false"
+        @closed="isFirst = true"
+        get-container="body"
+      >
+        <div v-if="isFirst">
+          <!-- 循环渲染可选项 -->
+          <van-cell
+            :title="item.name"
+            clickable
+            class="center-title"
+            v-for="item in actions"
+            :key="item.name"
+            @click="onCellClick(item.name)"
           />
         </div>
-        <!-- 三张图片 -->
-        <div class="thumb-box" v-if="article.cover.type > 1">
-          <img v-lazy="article.cover.images[0]" alt="" class="thumb" />
-          <img v-lazy="article.cover.images[1]" alt="" class="thumb" />
-          <img v-lazy="article.cover.images[2]" alt="" class="thumb" />
+
+        <div v-else>
+          <van-cell
+            :title="item.label"
+            clickable
+            title-class="center-title"
+            v-for="item in reports"
+            :key="item.type"
+            @click="reportArticle(item.type)"
+          />
         </div>
-      </template>
-      <!-- label 区域的插槽 -->
-      <template #label>
-        <div class="label-box">
-          <span
-            >{{ article.aut_name }} &nbsp;&nbsp; {{ article.comm_count }}评论
-            &nbsp;&nbsp; {{ article.pubdate | dateFormat }}</span
-          >
-          <!-- 关闭按钮 -->
-          <van-icon name="cross" @click.stop="show = true" v-if="closable" />
-
-        </div>
-      </template>
-    </van-cell>
-
-    <!-- 反馈的动作面板 -->
-    <van-action-sheet
-      v-model="show"
-      cancel-text="取消"
-      :closeable="false"
-      @closed="isFirst = true"
-      get-container="body"
-    >
-      <div v-if="isFirst">
-        <!-- 循环渲染可选项 -->
-        <van-cell
-          :title="item.name"
-          clickable
-          class="center-title"
-          v-for="item in actions"
-          :key="item.name"
-          @click="onCellClick(item.name)"
-        />
-      </div>
-
-      <div v-else>
-        <van-cell
-          :title="item.label"
-          clickable
-          title-class="center-title"
-          v-for="item in reports"
-          :key="item.type"
-          @click="reportArticle(item.type)"
-        />
-      </div>
-    </van-action-sheet>
-  </div>
-
+      </van-action-sheet>
+    </div>
   </div>
 </template>
 
 <script>
-import reports from "../api/reports";
-import { dislikeArticleAPI, reportArticleAPI } from "../api/HomeApi";
+import reports from '../api/reports'
+import { dislikeArticleAPI, reportArticleAPI } from '../api/HomeApi'
 export default {
-  name: "ArtItem",
+  name: 'ArtItem',
   props: {
     // 是否展示关闭按钮
     closable: {
@@ -86,7 +83,7 @@ export default {
       default: true
     }
   },
-  data() {
+  data () {
     return {
       reports,
       // loading 表示是否正在进行上拉加载的请求
@@ -101,56 +98,56 @@ export default {
       finished: false,
       show: false,
       actions: [
-        { name: "不感兴趣" },
-        { name: "反馈垃圾内容" },
-        { name: "拉黑作者" }
+        { name: '不感兴趣' },
+        { name: '反馈垃圾内容' },
+        { name: '拉黑作者' }
       ],
       isFirst: true
-    };
-  },
-  props: {
-    // 文章的信息对象
-    article: {
-      type: Object, // 数据类型
-      required: true // 必填项
     }
   },
-  created() {
+  // props: {
+  //   // 文章的信息对象
+  //   article: {
+  //     type: Object, // 数据类型
+  //     required: true, // 必填项
+  //   },
+  // },
+  created () {
     // console.log(this.reports);
   },
   methods: {
-    async onCellClick(name) {
-      if (name === "不感兴趣") {
+    async onCellClick (name) {
+      if (name === '不感兴趣') {
         // console.log("不感兴趣");
         // console.log(this.artId);
-        const { data: res } = await dislikeArticleAPI(this.artId);
-        console.log(res, "res");
-        if (res.message === "OK") {
-          this.$emit("remove-article", this.artId);
+        const { data: res } = await dislikeArticleAPI(this.artId)
+        console.log(res, 'res')
+        if (res.message === 'OK') {
+          this.$emit('remove-article', this.artId)
         }
-        this.show = false;
-      } else if (name === "拉黑作者") {
-        console.log("拉黑作者");
-        this.show = false;
-      } else if (name === "反馈垃圾内容") {
-        this.isFirst = false;
+        this.show = false
+      } else if (name === '拉黑作者') {
+        console.log('拉黑作者')
+        this.show = false
+      } else if (name === '反馈垃圾内容') {
+        this.isFirst = false
       }
     },
-    async reportArticle(type) {
-      const { data: res } = await reportArticleAPI(this.artId, type);
-      if (res.message === "OK") {
-        this.$emit("remove-article", this.artId);
+    async reportArticle (type) {
+      const { data: res } = await reportArticleAPI(this.artId, type)
+      if (res.message === 'OK') {
+        this.$emit('remove-article', this.artId)
       }
 
-      this.show = false;
+      this.show = false
     }
   },
   computed: {
-    artId() {
-      return this.article.art_id.toString();
+    artId () {
+      return this.article.art_id.toString()
     }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>
